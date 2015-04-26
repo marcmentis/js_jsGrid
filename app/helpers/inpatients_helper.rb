@@ -1,0 +1,2 @@
+module InpatientsHelper
+end

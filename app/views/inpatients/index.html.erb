@@ -1,0 +1,37 @@
+<h1>Listing inpatients</h1>
+
+<div id="divGrid"></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>C number</th>
+      <th>Ward</th>
+      <th>Diagnosis</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @inpatients.each do |inpatient| %>
+      <tr>
+        <td><%= inpatient.first_name %></td>
+        <td><%= inpatient.last_name %></td>
+        <td><%= inpatient.c_number %></td>
+        <td><%= inpatient.ward %></td>
+        <td><%= inpatient.diagnosis %></td>
+        <td><%= link_to 'Show', inpatient %></td>
+        <td><%= link_to 'Edit', edit_inpatient_path(inpatient) %></td>
+        <td><%= link_to 'Destroy', inpatient, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Inpatient', new_inpatient_path %>
