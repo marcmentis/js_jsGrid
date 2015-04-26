@@ -1,5 +1,7 @@
-// $(function(){
-$(".inpatients.index").ready(function(){
+$(function(){
+if($('body.inpatients').length){
+
+
 
 
 	
@@ -116,13 +118,6 @@ $(".inpatients.index").ready(function(){
 			},
 			position:'last'
 		});
-
 	};
-    
-});
-
-$(".inpatients.show").ready(function(){
-	
-		alert('in show');
-	
+};  
 });
