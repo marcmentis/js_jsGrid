@@ -1,17 +1,18 @@
-$(function(){
-	alert('anywhere');
-	if ($('body.inpatients').length) {
+// $(function(){
+$(".inpatients.index").ready(function(){
 
-		alert('only in inpatients');
-	};
+
+	
+
+
 	//DECLARE VARIABLES
 		var ID = '';
 		  	function set_id(x){ID = x};
 	// alert('in inpatients.js');
 	refreshgrid();
 
-//*****************************************************
-//FUNCTIONS CALLED FROM ABOVE
+	//*****************************************************
+	//FUNCTIONS CALLED FROM ABOVE
 	function refreshgrid(){
 		// var ward = $('#select_ward').val();
 
@@ -117,5 +118,11 @@ $(function(){
 		});
 
 	};
+    
+});
 
+$(".inpatients.show").ready(function(){
+	
+		alert('in show');
+	
 });
