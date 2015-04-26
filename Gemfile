@@ -36,6 +36,10 @@ end
 gem 'jquery-ui-rails', '~> 5.0'
 gem 'jquery-ui-themes'
 
+# Testing and Faking
+gem 'byebug'
+gem 'faker'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

@@ -1,12 +1,6 @@
 $(function(){
 if($('body.inpatients').length){
 
-
-
-
-	
-
-
 	//DECLARE VARIABLES
 		var ID = '';
 		  	function set_id(x){ID = x};
@@ -37,7 +31,7 @@ if($('body.inpatients').length){
 				{name:"ward",index:"ward",width:100,align:"center"},
 				{name:"diagnosis",index:"diagnosis",width:150,align:"center"}
 			],
-			// editurl:"/inpatient/update",
+			editurl:"/inpatient/update",
 			pager:"#divPager",
 			height:350,
 			width: 700,
@@ -47,7 +41,7 @@ if($('body.inpatients').length){
 			sortorder:"asc",
 			viewrecords:true,
 			gridview: true, //increased speed can't use treeGrid, subGrid, afterInsertRow
-			loadonce: true,
+			loadonce: true,  //grid load data only once. datatype set to 'local'. Futher manip on client. 'Pager' functions disabled
 			caption:"jqGRID PLUGIN. ",
 
 		        loadComplete: function(){
@@ -104,20 +98,27 @@ if($('body.inpatients').length){
 				// },	
 
 		})
-		.navGrid('#divPager', 
-			//{edit:false,add:false,del:false,search:false,refresh:false}
-			{"del":true}, 
-			{"closeAfterEdit":true,"closeOnEscape":true}, 
-			{}, {}, {}, {}
-	 	  )
+		// .navGrid('#divPager', 
+		// 	//{edit:false,add:false,del:false,search:false,refresh:false}
+		// 	{"del":true}, 
+		// 	{"closeAfterEdit":true,"closeOnEscape":true}, 
+		// 	{}, {}, {}, {}
+	 // 	  )
+		.navGrid('#divPager',
+			{edit:false,add:true,del:true,search:true,refresh:true},
+			{afterSubmit:function(r,data){return true;(r,data,'edit');}},
+			{afterSubmit:function(r,data){return true;(r,data,'add');}},
+			{afterSubmit:function(r,data){return true;(r,data,'delete');}}
+		)
 		.navButtonAdd('#divPager', {
 			caption: 'New',
 			buttonicon: '',
 			onClickButton: function(){
+				alert('click button')
 				$('#divFields, #bNew, #bBack').show();
 			},
 			position:'last'
 		});
 	};
-};  
-});
+};  //if($('body.inpatients').length){
+});	//$(function(){

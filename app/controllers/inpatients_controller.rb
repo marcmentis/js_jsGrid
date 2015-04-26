@@ -4,7 +4,20 @@ class InpatientsController < ApplicationController
   # GET /inpatients
   # GET /inpatients.json
   def index
+    # byebug
     @inpatients = Inpatient.all
+
+    # @inpatients = Inpatient.find(
+    #     :all,
+    #     # :conditions => ["id = ?", params[:q]],
+    #     :limit => params[:rows],
+    #     :offset => (params[:page].to_i - 1) * params[:rows].to_i
+    #   );
+
+    respond_to do |format|
+      format.html
+      format.json {render json: @inpatients }
+    end
   end
 
   # GET /inpatients/1
