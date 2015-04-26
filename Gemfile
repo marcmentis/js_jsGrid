@@ -33,7 +33,7 @@ group :doc do
 end
 
 # jQuery UI and Themes
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', '~> 5.0'
 gem 'jquery-ui-themes'
 
 # Use ActiveModel has_secure_password

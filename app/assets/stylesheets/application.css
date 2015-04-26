@@ -5,13 +5,16 @@
  * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
  * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
  *
+ *  can use require_tree ../../../vendor/assets/stylesheets
+ *    however, can't control order of .css sheets, order counts
+ *
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
 
  *= require_self
- *= require jquery.ui.all
- *= require_tree ../../../vendor/assets/stylesheets
+ *= require jquery-ui
+ *= require ../../../vendor/assets/stylesheets/ui.jqgrid.css
  *= require jquery-ui/redmond
  *= require_tree .
  */

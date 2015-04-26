@@ -1,4 +1,9 @@
 $(function(){
+	alert('anywhere');
+	if ($('body.inpatients').length) {
+
+		alert('only in inpatients');
+	};
 	//DECLARE VARIABLES
 		var ID = '';
 		  	function set_id(x){ID = x};
