@@ -1,4 +1,5 @@
-/*
+
+ /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
  *
@@ -16,6 +17,6 @@
  *= require jquery-ui
  *= require ../../../vendor/assets/stylesheets/ui.jqgrid.css
  *= require jquery-ui/redmond
-  *= require foundation_and_overrides
  *= require_tree .
  */
+
