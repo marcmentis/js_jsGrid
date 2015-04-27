@@ -12,10 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require foundation
 //= require jquery-ui
 //= require grid.locale-en.js
 //= require jquery.jqGrid.min.js
+//= require foundation
 //= require turbolinks
 //= require_tree .
 
