@@ -1,6 +1,41 @@
 <h1>Listing inpatients</h1>
 
 <div id="divGrid"></div>
+<div id="divFields">
+  <form id="fFields">
+    <div class="field">
+      <input id="id" type="hidden" />
+    </div>
+    <div class="field">
+        <input id="first_name" type="text" />
+        <label>first_name</label>      
+    </div>
+    <div class="field">
+        <input id="last_name" type="text" />
+        <label>last_name</label> (Client Validation Added)    
+    </div>
+    <div class="field">
+      <input id="c_number" type="text" />
+      <label>c_number</label>
+    </div>
+    <div class="field">       
+      <input id="ward" type="text" />
+      <label>ward</label>
+    </div>
+    <div class="field">       
+      <input id="diagnosis" type="text" />
+      <label>diagnosis</label>
+    </div>
+    <div id="divButtonEdit" class="actions">
+        <input id="bEdit" type="button" value="Edit Inpatient">
+        <input id="bNew" type="button" value="New Inpatient">
+        <input id="bDelete" type="button" value="Delete Inpatient">
+        <input id="bBack" type="button" value="Back">
+    </div>
+</div>
+
+
+
 
 <table>
   <thead>

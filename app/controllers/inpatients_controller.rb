@@ -52,6 +52,26 @@ class InpatientsController < ApplicationController
     end
   end
 
+  def create_json
+    # byebug
+    # @inpatient = Inpatient.new(inpatient_params)
+
+    @inpatient = Inpatient.new( first_name: params[:first_name],
+                                last_name: params[:last_name],
+                                c_number: params[:c_number],
+                                ward: params[:ward],
+                                diagnosis: params[:diagnosis]
+                                )
+
+    respond_to do |format|
+      if @inpatient.save
+        format.json {head :no_content}
+      else
+        format.json { render json: @inpatient.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # PATCH/PUT /inpatients/1
   # PATCH/PUT /inpatients/1.json
   def update
@@ -84,6 +104,7 @@ class InpatientsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def inpatient_params
-      params.require(:inpatient).permit(:first_name, :last_name, :c_number, :ward, :diagnosis)
+      params.require(:inpatient).permit(:first_name, :last_name, :c_number, :ward, :diagnosis, :form_data)
     end
+    
 end

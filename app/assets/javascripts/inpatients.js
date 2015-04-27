@@ -7,6 +7,43 @@ if($('body.inpatients').length){
 	// alert('in inpatients.js');
 	refreshgrid();
 
+	// STYLING
+	$('#divFields').hide();
+
+	// BUTTONS
+	$('#bNew').click(function(){
+			var first_name = $('#first_name').val();
+			var last_name = $('#last_name').val();
+			var c_number = $('#c_number').val();
+			var ward = $('#ward').val();
+			var diagnosis = $('#diagnosis').val();
+			form_data = {'first_name': first_name, 'last_name': 
+							last_name, 'c_number': c_number, 
+					  	    'ward': ward, 'diagnosis': diagnosis}
+
+			//VALIDATION
+				if (last_name == '') {
+					alert('Please enter a Last Name');
+					return false;
+				};
+
+			$.ajax({
+				url: '/inpatients/new2',
+				type: 'POST',
+				data: form_data,
+				datatype: 'json'
+			}).done(function(data){
+				refreshgrid();
+				clearFields();
+				$('#divFields, #bEdit, #bNew, #bDelete, #bBack').hide();
+
+			}).fail(function(){
+				alert('Error in invoicenew');
+			});
+		});
+
+	
+
 	//*****************************************************
 	//FUNCTIONS CALLED FROM ABOVE
 	function refreshgrid(){
@@ -80,22 +117,22 @@ if($('body.inpatients').length){
 			    },
 
 			    //The JASON reader. This defines what the JSON data returned should look 
-			    //This is the default. Not needed - only if return does NOT look like this
-				// jsonReader: { 
-				// 	root: "rows", 
-				// 	page: "page", 
-				// 	total: "total", 
-				// 	records: "records", 
-				// 	repeatitems: true, 
-				// 	cell: "cell", 
-				// 	id: "id",
-				// 	userdata: "userdata",
-				// 	subgrid: { 
-				// 	 root:"rows", 
-				// 	 repeatitems: true, 
-				// 	 cell:"cell" 
-				// 	} 
-				// },	
+				    //This is the default. Not needed - only if return does NOT look like this
+					// jsonReader: { 
+					// 	root: "rows", 
+					// 	page: "page", 
+					// 	total: "total", 
+					// 	records: "records", 
+					// 	repeatitems: true, 
+					// 	cell: "cell", 
+					// 	id: "id",
+					// 	userdata: "userdata",
+					// 	subgrid: { 
+					// 	 root:"rows", 
+					// 	 repeatitems: true, 
+					// 	 cell:"cell" 
+					// 	} 
+					// },	
 
 		})
 		.navGrid('#divPager', 
@@ -108,8 +145,8 @@ if($('body.inpatients').length){
 			caption: 'New',
 			buttonicon: '',
 			onClickButton: function(){
-				alert('click button')
 				$('#divFields, #bNew, #bBack').show();
+				$('#bDelete, #bEdit').hide();
 			},
 			position:'last'
 		});

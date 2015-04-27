@@ -1,6 +1,7 @@
 JqGrid::Application.routes.draw do
   resources :inpatients
   get 'widgets' => 'widgets#index'
+  post 'inpatients/new2' => 'inpatients#create_json', as: :new2_inpatient
 
 
   # The priority is based upon order of creation: first created -> highest priority.
