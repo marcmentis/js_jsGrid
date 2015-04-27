@@ -41,7 +41,7 @@ if($('body.inpatients').length){
 			sortorder:"asc",
 			viewrecords:true,
 			gridview: true, //increased speed can't use treeGrid, subGrid, afterInsertRow
-			loadonce: true,  //grid load data only once. datatype set to 'local'. Futher manip on client. 'Pager' functions disabled
+			// loadonce: true,  //grid load data only once. datatype set to 'local'. Futher manip on client. 'Pager' functions disabled
 			caption:"jqGRID PLUGIN. ",
 
 		        loadComplete: function(){
