@@ -13,6 +13,8 @@
  *
 
  *= require_self
+ *= require foundation_and_overrides
+
  *= require jquery-ui
  *= require ../../../vendor/assets/stylesheets/ui.jqgrid.css
  *= require jquery-ui/redmond

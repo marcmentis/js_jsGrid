@@ -98,18 +98,12 @@ if($('body.inpatients').length){
 				// },	
 
 		})
-		// .navGrid('#divPager', 
-		// 	//{edit:false,add:false,del:false,search:false,refresh:false}
-		// 	{"del":true}, 
-		// 	{"closeAfterEdit":true,"closeOnEscape":true}, 
-		// 	{}, {}, {}, {}
-	 // 	  )
-		.navGrid('#divPager',
-			{edit:false,add:true,del:true,search:true,refresh:true},
-			{afterSubmit:function(r,data){return true;(r,data,'edit');}},
-			{afterSubmit:function(r,data){return true;(r,data,'add');}},
-			{afterSubmit:function(r,data){return true;(r,data,'delete');}}
-		)
+		.navGrid('#divPager', 
+			{edit:false,add:false,del:false,search:false,refresh:false}
+			// {"del":true}, 
+			// {"closeAfterEdit":true,"closeOnEscape":true}, 
+			// {}, {}, {}, {}
+	 	  )
 		.navButtonAdd('#divPager', {
 			caption: 'New',
 			buttonicon: '',

@@ -1,4 +1,5 @@
 class InpatientsController < ApplicationController
+  include JqgridHelper
   before_action :set_inpatient, only: [:show, :edit, :update, :destroy]
 
   # GET /inpatients
@@ -6,44 +7,14 @@ class InpatientsController < ApplicationController
   def index
     @inpatients = Inpatient.all
     if params[:page] != nil
-      
-      # byebug
-      # @inpatients = Inpatient.all
+      total_query_count = Inpatient.all.count     
+      # Run query and extract just those rows needed
+      extract = Inpatient.order("#{params[:sidx]} #{params[:sord]}")
+                          .limit(params[:rows].to_i)
+                          .offset((params[:page].to_i - 1) * params[:rows].to_i)
 
-      all_inpatients = Inpatient.all
-      page = params[:page].to_f  # page from view
-      rows_per_page = params[:rows].to_f  # rows from view
-      records = all_inpatients.count # total records from query
-      total = (records/rows_per_page).ceil  # total pages needed for all records
-
-      # Extract required rows from all_inpatients
-      extract = Inpatient.find(
-          :all,
-          :limit => params[:rows],
-          :offset => (params[:page].to_i - 1) * params[:rows].to_i
-        );
-      
-      rows = extract.map do |r|
-        rows = {"id" => r.id, 
-                "cell" => [r.id, r.first_name, r.last_name, r.c_number, r.ward, r.diagnosis]
-                 }
-      end
-
-      @jsGrid_obj = { "total" => total, 
-                      "page" => page, 
-                      "records" => records,
-                      "rows" => rows
-                    }
-      puts "jsGrid_obj: \n #{@jsGrid_obj}"
-      puts "jsGrid_obj.count: \n #{@jsGrid_obj.count}"
+      @jsGrid_obj = create_jsGrid_obj(extract, params, total_query_count)
     end
-
-    # @inpatients = Inpatient.find(
-    #     :all,
-    #     # :conditions => ["id = ?", params[:q]],
-    #     :limit => params[:rows],
-    #     :offset => (params[:page].to_i - 1) * params[:rows].to_i
-    #   );
 
     respond_to do |format|
       format.html
