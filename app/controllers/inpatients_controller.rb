@@ -22,6 +22,19 @@ class InpatientsController < ApplicationController
     end
   end
 
+  def search_grid
+    total_query = Inpatient.where(
+                              "diagnosis = :diagnosis", {diagnosis: "Schizophrenia"}
+                            )
+    total_query_count = total_query.count
+    # Run query and extract just those rows needed
+      extract = Inpatient.order("first_name asc")
+                          .limit(10)
+                          .offset((1- 1) * 10)
+
+      @jsGrid_obj = create_jsGrid_obj(extract, params, total_query_count)
+  end
+
   # GET /inpatients/1
   # GET /inpatients/1.json
   def show
@@ -54,14 +67,7 @@ class InpatientsController < ApplicationController
 
   def create_json
     # byebug
-    # @inpatient = Inpatient.new(inpatient_params)
-
-    @inpatient = Inpatient.new( first_name: params[:first_name],
-                                last_name: params[:last_name],
-                                c_number: params[:c_number],
-                                ward: params[:ward],
-                                diagnosis: params[:diagnosis]
-                                )
+    @inpatient = Inpatient.new(inpatient_params)
 
     respond_to do |format|
       if @inpatient.save
@@ -104,7 +110,7 @@ class InpatientsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def inpatient_params
-      params.require(:inpatient).permit(:first_name, :last_name, :c_number, :ward, :diagnosis, :form_data)
+      params.require(:inpatient).permit(:first_name, :last_name, :c_number, :ward, :diagnosis)
     end
     
 end

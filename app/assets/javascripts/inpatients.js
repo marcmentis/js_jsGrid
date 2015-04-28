@@ -17,9 +17,10 @@ if($('body.inpatients').length){
 			var c_number = $('#c_number').val();
 			var ward = $('#ward').val();
 			var diagnosis = $('#diagnosis').val();
-			form_data = {'first_name': first_name, 'last_name': 
+			// Create strong parameter
+			form_data ={inpatient: {'first_name': first_name, 'last_name': 
 							last_name, 'c_number': c_number, 
-					  	    'ward': ward, 'diagnosis': diagnosis}
+					  	    'ward': ward, 'diagnosis': diagnosis}}
 
 			//VALIDATION
 				if (last_name == '') {
@@ -42,6 +43,32 @@ if($('body.inpatients').length){
 			});
 		});
 
+	$('#bSearch').click(function(){ alert("hello")
+			var first_name = $('#s_first_name').val();
+			var last_name = $('#s_last_name').val();
+			var c_number = $('#s_c_number').val();
+			var ward = $('#s_ward').val();
+			var diagnosis = $('#s_diagnosis').val();
+
+			// Create strong parameter ONLY if data entered
+			form_data ={inpatient: {'first_name': first_name, 'last_name': 
+							last_name, 'c_number': c_number, 
+					  	    'ward': ward, 'diagnosis': diagnosis}}
+			$.ajax({
+				url: '/inpatients/search',
+				type: 'POST',
+				data: form_data,
+				datatype: 'json'
+			}).done(function(data){
+				refreshgrid();
+				// clearFields();
+				// $('#divFields, #bEdit, #bNew, #bDelete, #bBack').hide();
+
+			}).fail(function(){
+				alert('Error in invoicenew');
+			});
+	});
+
 	
 
 	//*****************************************************
@@ -54,8 +81,8 @@ if($('body.inpatients').length){
 		$('#divGrid').html('<table id="divTable"></table><div id="divPager"></div>');
 		//Define grid
 		$("#divTable").jqGrid({
-			// url:"/inpatients?ward="+ward+"",
 			url: "/inpatients",
+			// url: "/inpatients?_search=true&diagnosis=Schizophrenia",
 			//url: '/select_grid?ward='+ward+'',
 			datatype:"json",
 			mtype:"GET",
