@@ -23,12 +23,15 @@ class InpatientsController < ApplicationController
   end
 
   def big_search
-    # build where's
-   # conditions = Inpatient.where("diagnosis = :diagnosis", {diagnosis: params[:diagnosis]}
-   #                          ).where("first_name = :first_name", {first_name: params[:first_name]})
-   conditions = Inpatient.all 
-   conditions = conditions.where("diagnosis = :diagnosis", {diagnosis: params[:diagnosis]}) if params[:diagnosis]!= ''
-   conditions = conditions.where("first_name = :first_name", {first_name: params[:first_name]}) if params[:first_name]!= ''
+    # ActiveRecord relations are lazy loaders and can be chained
+    # Therefore, sequental .where searches IF PARAM not zero will filter with an 'AND' relationship
+    # Database will not be hit (lazy loading) until data needed by app
+    conditions = Inpatient.all 
+    conditions = conditions.where("diagnosis = :diagnosis", {diagnosis: params[:diagnosis]}) if params[:diagnosis]!= ''
+    conditions = conditions.where("first_name = :first_name", {first_name: params[:first_name]}) if params[:first_name]!= ''
+    conditions = conditions.where("last_name = :last_name", {last_name: params[:last_name]}) if params[:last_name]!= ''
+    conditions = conditions.where("c_number = :c_number", {c_number: params[:c_number]}) if params[:c_number]!= ''
+    conditions = conditions.where("ward = :ward", {ward: params[:ward]}) if params[:ward]!= ''
 
 
     # total_query = Inpatient.where("diagnosis = :diagnosis", {diagnosis: params[:diagnosis]}
@@ -40,13 +43,6 @@ class InpatientsController < ApplicationController
       extract = conditions
                     .order("#{params[:sidx]} #{params[:sord]}")
                     .limit(params[:rows].to_i)
-      # extract = Inpatient.where("diagnosis = :diagnosis", {diagnosis: params[:diagnosis]}
-      #                       ).where("first_name = :first_name", {first_name: params[:first_name]})
-      #                     .order("#{params[:sidx]} #{params[:sord]}")
-      #                     .limit(params[:rows].to_i)
-      #                     .offset((params[:page].to_i - 1) * params[:rows].to_i)
-
-
       @jsGrid_obj = create_jsGrid_obj(extract, params, total_query_count)
     respond_to do |format|
       format.html
@@ -110,6 +106,7 @@ class InpatientsController < ApplicationController
       end
     end
   end
+
 
   # DELETE /inpatients/1
   # DELETE /inpatients/1.json

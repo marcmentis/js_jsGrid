@@ -42,6 +42,9 @@ if($('body.inpatients').length){
 				alert('Error in invoicenew');
 			});
 		});
+	$('#bEdit').click(function(){
+
+	});
 
 	$('#bSearch').click(function(){
 			var first_name = $('#s_first_name').val();
@@ -53,8 +56,7 @@ if($('body.inpatients').length){
 			$("#gridGrid").remove();         
 			// $('#divGrid').html('<table id="divTable"></table><div id="divPager"></div>');
 		
-			refreshgrid('/inpatients_search?first_name='+first_name+'&diagnosis='+diagnosis+'');
-			alert('goodbye');
+			refreshgrid('/inpatients_search?first_name='+first_name+'&last_name='+last_name+'&c_number='+c_number+'&ward='+ward+'&diagnosis='+diagnosis+'');
 	});
 
 	
@@ -106,15 +108,18 @@ if($('body.inpatients').length){
 
 				onSelectRow:function(id) { 
 					set_id(id);  //set the ID variable
-					alert(id)
+					json_data = {inpatient: {id: id}}
+
 					$.ajax({ 
-							  url: '/inpatient_show',
-							  data: {id: id},
+							  // url: '/inpatient_show',
+							  url: '/inpatients/'+id+'',
+							  data: json_data,
 							  //type: 'POST',
 							  type: 'GET',
 							  dataType: 'json'
 						}).done(function(data){
 							$('#divFields, #bEdit, #bDelete, #bBack').show();
+							$('#bDelete, #bNew').hide();
 							$('#id').val(data.id);
 							$('#first_name').val(data.first_name);
 							$('#last_name').val(data.last_name);
