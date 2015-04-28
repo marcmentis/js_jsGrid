@@ -5,7 +5,7 @@ if($('body.inpatients').length){
 		var ID = '';
 		  	function set_id(x){ID = x};
 	// alert('in inpatients.js');
-	refreshgrid();
+	refreshgrid('nil');
 
 	// STYLING
 	$('#divFields').hide();
@@ -43,45 +43,37 @@ if($('body.inpatients').length){
 			});
 		});
 
-	$('#bSearch').click(function(){ alert("hello")
+	$('#bSearch').click(function(){
 			var first_name = $('#s_first_name').val();
 			var last_name = $('#s_last_name').val();
 			var c_number = $('#s_c_number').val();
 			var ward = $('#s_ward').val();
 			var diagnosis = $('#s_diagnosis').val();
 
-			// Create strong parameter ONLY if data entered
-			form_data ={inpatient: {'first_name': first_name, 'last_name': 
-							last_name, 'c_number': c_number, 
-					  	    'ward': ward, 'diagnosis': diagnosis}}
-			$.ajax({
-				url: '/inpatients/search',
-				type: 'POST',
-				data: form_data,
-				datatype: 'json'
-			}).done(function(data){
-				refreshgrid();
-				// clearFields();
-				// $('#divFields, #bEdit, #bNew, #bDelete, #bBack').hide();
-
-			}).fail(function(){
-				alert('Error in invoicenew');
-			});
+			$("#gridGrid").remove();         
+			// $('#divGrid').html('<table id="divTable"></table><div id="divPager"></div>');
+		
+			refreshgrid('/inpatients_search?first_name='+first_name+'&diagnosis='+diagnosis+'');
+			alert('goodbye');
 	});
 
 	
 
 	//*****************************************************
 	//FUNCTIONS CALLED FROM ABOVE
-	function refreshgrid(){
+	function refreshgrid(url){
 		// var ward = $('#select_ward').val();
+		if (url == 'nil') {url = '/inpatients'};
 
+		
 		//Create Table and Div for grid and navigation "pager" 
 	 	// $("#gridWork").remove();         
 		$('#divGrid').html('<table id="divTable"></table><div id="divPager"></div>');
 		//Define grid
 		$("#divTable").jqGrid({
-			url: "/inpatients",
+			url: url,
+			// url: "/inpatients",
+			// url: "/inpatients_search?diagnosis=Schizophrenia",
 			// url: "/inpatients?_search=true&diagnosis=Schizophrenia",
 			//url: '/select_grid?ward='+ward+'',
 			datatype:"json",

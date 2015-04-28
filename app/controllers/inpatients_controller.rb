@@ -22,17 +22,36 @@ class InpatientsController < ApplicationController
     end
   end
 
-  def search_grid
-    total_query = Inpatient.where(
-                              "diagnosis = :diagnosis", {diagnosis: "Schizophrenia"}
-                            )
+  def big_search
+    # build where's
+   # conditions = Inpatient.where("diagnosis = :diagnosis", {diagnosis: params[:diagnosis]}
+   #                          ).where("first_name = :first_name", {first_name: params[:first_name]})
+   conditions = Inpatient.all 
+   conditions = conditions.where("diagnosis = :diagnosis", {diagnosis: params[:diagnosis]}) if params[:diagnosis]!= ''
+   conditions = conditions.where("first_name = :first_name", {first_name: params[:first_name]}) if params[:first_name]!= ''
+
+
+    # total_query = Inpatient.where("diagnosis = :diagnosis", {diagnosis: params[:diagnosis]}
+                            # ).where("first_name = :first_name", {first_name: params[:first_name]});
+    total_query = conditions
     total_query_count = total_query.count
-    # Run query and extract just those rows needed
-      extract = Inpatient.order("first_name asc")
-                          .limit(10)
-                          .offset((1- 1) * 10)
+
+# Run query and extract just those rows needed
+      extract = conditions
+                    .order("#{params[:sidx]} #{params[:sord]}")
+                    .limit(params[:rows].to_i)
+      # extract = Inpatient.where("diagnosis = :diagnosis", {diagnosis: params[:diagnosis]}
+      #                       ).where("first_name = :first_name", {first_name: params[:first_name]})
+      #                     .order("#{params[:sidx]} #{params[:sord]}")
+      #                     .limit(params[:rows].to_i)
+      #                     .offset((params[:page].to_i - 1) * params[:rows].to_i)
+
 
       @jsGrid_obj = create_jsGrid_obj(extract, params, total_query_count)
+    respond_to do |format|
+      format.html
+      format.json {render json: @jsGrid_obj }
+    end
   end
 
   # GET /inpatients/1
