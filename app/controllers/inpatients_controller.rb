@@ -10,8 +10,8 @@ class InpatientsController < ApplicationController
       total_query_count = Inpatient.all.count     
       # Run query and extract just those rows needed
       extract = Inpatient.order("#{params[:sidx]} #{params[:sord]}")
-                          .limit(params[:rows].to_i)
-                          .offset((params[:page].to_i - 1) * params[:rows].to_i)
+                        .limit(params[:rows].to_i)
+                        .offset((params[:page].to_i - 1) * params[:rows].to_i)
       # Create jsGrid object from 'extract' data
       @jsGrid_obj = create_jsGrid_obj(extract, params, total_query_count)
     end
@@ -22,7 +22,7 @@ class InpatientsController < ApplicationController
     end
   end
 
-  def big_search
+  def complex_search
     # ActiveRecord relations are lazy loaders and can be chained
     # Therefore, sequental .where searches IF PARAM not zero will filter with an 'AND' relationship
     # Database will not be hit (lazy loading) until data needed by app
@@ -43,6 +43,7 @@ class InpatientsController < ApplicationController
       extract = conditions
                     .order("#{params[:sidx]} #{params[:sord]}")
                     .limit(params[:rows].to_i)
+                    .offset((params[:page].to_i - 1) * params[:rows].to_i)
       @jsGrid_obj = create_jsGrid_obj(extract, params, total_query_count)
     respond_to do |format|
       format.html
