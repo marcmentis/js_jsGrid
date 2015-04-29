@@ -12,38 +12,12 @@ if($('body.inpatients').length){
 
 	// BUTTONS
 	$('#bNew').click(function(){
-			var first_name = $('#first_name').val();
-			var last_name = $('#last_name').val();
-			var c_number = $('#c_number').val();
-			var ward = $('#ward').val();
-			var diagnosis = $('#diagnosis').val();
-			// Create strong parameter
-			form_data ={inpatient: {'first_name': first_name, 'last_name': 
-							last_name, 'c_number': c_number, 
-					  	    'ward': ward, 'diagnosis': diagnosis}}
+		// ajax_call('/inpatients/new2', 'POST');
+		ajax_call('/inpatients', 'POST');
+	});
 
-			//VALIDATION
-				if (last_name == '') {
-					alert('Please enter a Last Name');
-					return false;
-				};
-
-			$.ajax({
-				url: '/inpatients/new2',
-				type: 'POST',
-				data: form_data,
-				datatype: 'json'
-			}).done(function(data){
-				refreshgrid();
-				clearFields();
-				$('#divFields, #bEdit, #bNew, #bDelete, #bBack').hide();
-
-			}).fail(function(){
-				alert('Error in invoicenew');
-			});
-		});
 	$('#bEdit').click(function(){
-
+		ajax_call('/inpatients/'+ID+'', 'PATCH');
 	});
 
 	$('#bSearch').click(function(){
@@ -55,8 +29,22 @@ if($('body.inpatients').length){
 
 			$("#gridGrid").remove();         
 			// $('#divGrid').html('<table id="divTable"></table><div id="divPager"></div>');
+			url = '/inpatients_search?first_name='+first_name+'&last_name='+last_name+'&c_number='+c_number+'&ward='+ward+'&diagnosis='+diagnosis+''
+			refreshgrid(url);
+	});
+
+	$('#bDelete').click(function(){
+		if(confirm("Are you sure you want to delete this patient")){
+			ajax_call('/inpatients/'+ID+'', 'DELETE');	
+		} else {
+			return true;
+		};
 		
-			refreshgrid('/inpatients_search?first_name='+first_name+'&last_name='+last_name+'&c_number='+c_number+'&ward='+ward+'&diagnosis='+diagnosis+'');
+	});
+
+	$('#bBack').click(function(){
+		$('#divFields, #bEdit, #bNew, #bDelete, #bBack').hide();
+		clearFields();
 	});
 
 	
@@ -108,18 +96,19 @@ if($('body.inpatients').length){
 
 				onSelectRow:function(id) { 
 					set_id(id);  //set the ID variable
-					json_data = {inpatient: {id: id}}
+					data_for_params = {inpatient: {id: id}}
 
 					$.ajax({ 
 							  // url: '/inpatient_show',
 							  url: '/inpatients/'+id+'',
-							  data: json_data,
+							  data: data_for_params,
 							  //type: 'POST',
 							  type: 'GET',
 							  dataType: 'json'
 						}).done(function(data){
+							clearFields();
 							$('#divFields, #bEdit, #bDelete, #bBack').show();
-							$('#bDelete, #bNew').hide();
+							$('#bNew').hide();
 							$('#id').val(data.id);
 							$('#first_name').val(data.first_name);
 							$('#last_name').val(data.last_name);
@@ -161,6 +150,7 @@ if($('body.inpatients').length){
 		})
 		.navGrid('#divPager', 
 			{edit:false,add:false,del:false,search:false,refresh:false}
+			// {edit:false,add:false,del:true,search:false,refresh:false}
 			// {"del":true}, 
 			// {"closeAfterEdit":true,"closeOnEscape":true}, 
 			// {}, {}, {}, {}
@@ -169,11 +159,49 @@ if($('body.inpatients').length){
 			caption: 'New',
 			buttonicon: '',
 			onClickButton: function(){
+				clearFields();
 				$('#divFields, #bNew, #bBack').show();
 				$('#bDelete, #bEdit').hide();
 			},
 			position:'last'
 		});
 	};
+
+	function clearFields(){
+		$('#first_name, #last_name, #c_number, #ward, #diagnosis').val('');
+	 };
+
+	function ajax_call (url, type) {
+		var first_name = $('#first_name').val();
+		var last_name = $('#last_name').val();
+		var c_number = $('#c_number').val();
+		var ward = $('#ward').val();
+		var diagnosis = $('#diagnosis').val();
+		// Create strong parameter
+		data_for_params ={inpatient: {'first_name': first_name, 'last_name': 
+						last_name, 'c_number': c_number, 
+				  	    'ward': ward, 'diagnosis': diagnosis}}
+
+		//VALIDATION
+			if (last_name == '') {
+				alert('Please enter a Last Name');
+				return false;
+			};
+
+		$.ajax({
+			url: url,
+			type: type,
+			data: data_for_params,
+			dataType: 'json'
+		}).done(function(data){
+			refreshgrid();
+			clearFields();
+			$('#divFields, #bEdit, #bNew, #bDelete, #bBack').hide();
+
+		}).fail(function(){
+			alert('Error in invoicenew');
+		});
+	};
+
 };  //if($('body.inpatients').length){
 });	//$(function(){

@@ -5,14 +5,14 @@ class InpatientsController < ApplicationController
   # GET /inpatients
   # GET /inpatients.json
   def index
-    @inpatients = Inpatient.all
+    # @inpatients = Inpatient.all
     if params[:page] != nil
       total_query_count = Inpatient.all.count     
       # Run query and extract just those rows needed
       extract = Inpatient.order("#{params[:sidx]} #{params[:sord]}")
                           .limit(params[:rows].to_i)
                           .offset((params[:page].to_i - 1) * params[:rows].to_i)
-
+      # Create jsGrid object from 'extract' data
       @jsGrid_obj = create_jsGrid_obj(extract, params, total_query_count)
     end
 
@@ -72,22 +72,10 @@ class InpatientsController < ApplicationController
     respond_to do |format|
       if @inpatient.save
         format.html { redirect_to @inpatient, notice: 'Inpatient was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @inpatient }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @inpatient.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def create_json
-    # byebug
-    @inpatient = Inpatient.new(inpatient_params)
-
-    respond_to do |format|
-      if @inpatient.save
+        # format.json { render action: 'show', status: :created, location: @inpatient }
         format.json {head :no_content}
       else
+        format.html { render action: 'new' }
         format.json { render json: @inpatient.errors, status: :unprocessable_entity }
       end
     end

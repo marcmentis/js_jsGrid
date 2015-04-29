@@ -1,7 +1,7 @@
 JqGrid::Application.routes.draw do
   resources :inpatients
   get 'widgets' => 'widgets#index'
-  post 'inpatients/new2' => 'inpatients#create_json', as: :new2_inpatient
+  # post 'inpatients/new2' => 'inpatients#create_json', as: :new2_inpatient
   get 'inpatients_search' => 'inpatients#big_search', as: :big_search_inpatients
 
 
