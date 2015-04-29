@@ -54,17 +54,20 @@
 	color: #13a;
 }
 .sf-menu li {
-	background: #BDD2FF;
+	/*background: #BDD2FF;*/
+	background: #78BCE8;
 	white-space: nowrap; /* no need for Supersubs plugin */
 	*white-space: normal; /* ...unless you support IE7 (let it wrap) */
 	-webkit-transition: background .2s;
 	transition: background .2s;
 }
 .sf-menu ul li {
-	background: #AABDE6;
+	/*background: #AABDE6;*/
+	background: #79C2E8;
 }
 .sf-menu ul ul li {
-	background: #9AAEDB;
+	/*background: #9AAEDB;*/
+	background: #79C2E8;
 }
 .sf-menu li:hover,
 .sf-menu li.sfHover {
