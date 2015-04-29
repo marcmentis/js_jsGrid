@@ -8,8 +8,15 @@
 </head>
 <body>
 <body class="<%= params[:controller] %>">
-
+<%= render 'layouts/superfish.html.erb' %>
 <%= yield %>
 
+<script>
+
+	jQuery(document).ready(function() {
+		jQuery('ul.sf-menu').superfish();
+	});
+
+</script>
 </body>
 </html> 
